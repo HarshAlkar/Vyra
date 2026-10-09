@@ -1,156 +1,242 @@
 # VYRA — Eyewear Mini E-Commerce
 
-A cinematic, editorial eyewear storefront built with React, TypeScript, and Vite for a React Developer Intern take-home assessment.
+**VYRA** is a premium, editorial eyewear storefront built with React for a React Developer Intern take-home assessment.
 
-**Brand:** VYRA  
-**Tagline:** See Beyond Ordinary.  
-**Positioning:** Contemporary eyewear for people who treat personal style as an extension of identity.
+> **Tagline:** See Beyond Ordinary.  
+> Contemporary frames for people who treat personal style as an extension of identity.
 
-> Frontend demonstration using local JSON product data. Checkout is a **demo only** — no real payments are processed.
+This is a **frontend-only** demo. Product data comes from a local JSON file. Checkout is a static demonstration flow — **no real payments** are processed.
 
-## Features
+---
 
-- Full-viewport cinematic video hero with poster / reduced-motion fallbacks
-- Editorial homepage (featured mosaic, shop-by-frame, signature edit, frame finder, brand story)
-- Dedicated collection page with search, category filters, frame-shape filters, and sorting
-- Slug-based product detail pages with image gallery, specifications, and related frames
-- Cart add / remove / quantity controls with live badge and totals
-- Cart persistence via `localStorage` (`vyra-cart-v1`)
-- Loading skeletons, error states, and empty states
-- Responsive layout across mobile, tablet, and desktop
-- Framer Motion transitions with `prefers-reduced-motion` support
+## Prerequisites
 
-## Technology Stack
+Before you begin, install:
 
-- React 19 + Vite + TypeScript
-- Tailwind CSS v4 (`@tailwindcss/vite`)
-- React Router DOM
-- Framer Motion
-- Lucide React
-- Sonner
-- Local JSON catalogue
-- Context API + `useReducer` for cart state
+- **[Node.js](https://nodejs.org/)** — version **18** or newer (recommended: LTS)
+- **npm** — comes with Node.js
 
-## Setup
+Check your versions:
+
+```bash
+node -v
+npm -v
+```
+
+---
+
+## Setup & Run (Local)
+
+### 1. Open the project folder
 
 ```bash
 cd ecom
+```
+
+If you cloned a GitHub repository that contains this app at the root, use that root folder instead of `ecom`.
+
+### 2. Install dependencies
+
+```bash
 npm install
 ```
 
-## Development
+### 3. Start the development server
 
 ```bash
 npm run dev
 ```
 
-Open the URL shown in the terminal (typically `http://localhost:5173`).
+### 4. Open the app in your browser
 
-## Production Build
+Vite will print a local URL in the terminal, usually:
+
+```text
+http://localhost:5173/
+```
+
+Open that link to use the application.
+
+Stop the server anytime with `Ctrl + C`.
+
+---
+
+## Other Commands
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start local development server with hot reload |
+| `npm run build` | Type-check and create a production build in `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Run ESLint |
+
+### Production preview
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Routes
+Then open the preview URL shown in the terminal (often `http://localhost:4173/`).
 
-| Route | Description |
+---
+
+## Features
+
+- Cinematic full-viewport **video hero** with poster fallback
+- Editorial homepage (featured edit, shop-by-frame, signature collection, frame finder, brand story)
+- **Collection** page with search, category filters, frame-shape filters, and sorting
+- **Product detail** pages with image gallery, specifications, and related products
+- **Shopping cart** — add / remove / quantity, live badge, accurate totals
+- **Checkout page** — static demo form (contact, shipping, payment) + confirmation
+- Cart **persists in `localStorage`** across refreshes
+- Loading, error, and empty states
+- Responsive layout (mobile, tablet, desktop)
+- Page transitions and motion with `prefers-reduced-motion` respect for UI animations
+
+---
+
+## Tech Stack
+
+| Tool | Role |
 | --- | --- |
-| `/` | Editorial homepage with video hero |
-| `/collection` | Full shop with filters and sorting |
-| `/products/:slug` | Product detail page |
+| React 19 + TypeScript | UI |
+| Vite | Dev server & build |
+| Tailwind CSS v4 | Styling |
+| React Router DOM | Routing |
+| Framer Motion | Animations |
+| Lucide React | Icons |
+| Sonner | Toasts |
+| Context API + `useReducer` | Cart state |
+| Local JSON | Product catalogue |
+
+---
+
+## Application Routes
+
+| Route | Page |
+| --- | --- |
+| `/` | Home — video hero + editorial sections |
+| `/collection` | Full product catalogue (search / filter / sort) |
+| `/products/:slug` | Product details |
 | `/cart` | Shopping cart |
+| `/checkout` | Demo checkout form |
 | `*` | Custom 404 |
 
-Collection query params:
-
-- `q` — search
-- `category` — category filter
-- `shape` — frame shape
-- `style` — frame finder style (`minimal` \| `bold` \| `classic` \| `experimental`)
-- `sort` — `featured` \| `newest` \| `price-asc` \| `price-desc` \| `rating-desc`
-
-## Folder Structure
+### Useful collection query params
 
 ```text
-src/
-├── components/
-│   ├── cart/
-│   ├── common/
-│   ├── home/          # HeroVideo, FeaturedEdit, ShopByFrame, FrameFinder, ...
-│   ├── layout/
-│   └── products/      # ProductCard, ProductGallery, CollectionFilters, ...
-├── context/           # CartContext
-├── data/products.json
-├── hooks/useProducts.ts
-├── pages/
-├── types/product.ts
-└── utils/
-public/
-├── videos/vyra-hero.mp4
-└── images/hero-poster.jpg
+/collection?q=aviator
+/collection?category=Sunglasses
+/collection?shape=Round
+/collection?style=minimal
+/collection?sort=price-asc
 ```
+
+---
+
+## Project Structure
+
+```text
+ecom/
+├── public/
+│   ├── images/hero-poster.jpg
+│   └── videos/vyra-hero.mp4
+├── src/
+│   ├── components/
+│   │   ├── cart/          # CartItem, CartSummary
+│   │   ├── common/        # Button, EmptyState, LoadingSkeleton, ...
+│   │   ├── home/          # HeroVideo, FeaturedEdit, FrameFinder, ...
+│   │   ├── layout/        # Navbar, Footer, Layout, ScrollToTop
+│   │   └── products/      # ProductCard, ProductGallery, filters, ...
+│   ├── context/           # CartContext (useReducer + localStorage)
+│   ├── data/products.json # Local eyewear catalogue (20 items)
+│   ├── hooks/             # useProducts
+│   ├── pages/             # Home, Collection, ProductDetails, Cart, Checkout, 404
+│   ├── types/             # Product & cart types
+│   ├── utils/             # currency, cart helpers, animations
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── package.json
+└── README.md
+```
+
+---
 
 ## Product Data
 
-Products live in `src/data/products.json` (20 eyewear / accessory items). Example fields:
+All products are stored in [`src/data/products.json`](src/data/products.json). No backend or external product API is required.
 
-```json
-{
-  "id": "vyra-001",
-  "name": "Noir Acetate Optical",
-  "slug": "noir-acetate-optical",
-  "price": 4999,
-  "category": "Optical Frames",
-  "frameShape": "Rectangular",
-  "frameMaterial": "Acetate",
-  "frameColor": "Black",
-  "lensType": "Clear demo lenses",
-  "style": "minimal",
-  "images": ["..."],
-  "featured": true,
-  "isNew": false
-}
+Each product includes fields such as:
+
+- `id`, `name`, `slug`, `description`, `price`
+- `category`, `frameShape`, `frameMaterial`, `frameColor`, `lensType`
+- `rating`, `reviewCount`, `image`, `images[]`
+- `stock`, `featured`, `isNew`, `style`
+
+Prices are in **INR** and formatted with:
+
+```ts
+Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' })
 ```
 
-Prices are INR whole numbers formatted with `Intl.NumberFormat('en-IN', ...)`.
+---
 
-## Cart Persistence
+## Cart & Checkout
 
-Stored under `vyra-cart-v1` as:
+- Cart state is managed with **React Context** and **`useReducer`**
+- Persisted in the browser under the key **`vyra-cart-v1`**
+- Invalid / outdated `localStorage` data is handled safely
+- Quantity cannot go below `1` or above available `stock`
+- Checkout at `/checkout` is a **static demo** — place order shows a confirmation screen only
 
-```json
-[{ "productId": "vyra-001", "quantity": 2 }]
-```
-
-On load, entries are validated against the catalogue. Invalid JSON, missing products, and out-of-range quantities are ignored or clamped.
+---
 
 ## Asset Sources
 
-| Asset | Source | Notes |
-| --- | --- | --- |
-| Hero video | [Mixkit — Hipster woman taking sun (#701)](https://mixkit.co/free-stock-video/hipster-woman-taking-sun-701/) | Free Mixkit Stock Video License; stored locally at `public/videos/vyra-hero.mp4` |
-| Hero poster | Mixkit thumbnail for the same clip | `public/images/hero-poster.jpg` |
-| Product images | Unsplash eyewear photographs | Remote URLs with SVG fallback on error |
+| Asset | Source |
+| --- | --- |
+| Hero video | [Mixkit #701](https://mixkit.co/free-stock-video/hipster-woman-taking-sun-701/) (stored locally) |
+| Hero poster | Mixkit thumbnail for the same clip |
+| Product images | Unsplash eyewear photos (SVG fallback if a URL fails) |
 
-To replace the hero video, drop another MP4 at `public/videos/vyra-hero.mp4` and update the poster if needed. The hero still renders from the poster when video fails or reduced motion is preferred.
+To swap the hero film, replace `public/videos/vyra-hero.mp4` (and optionally `public/images/hero-poster.jpg`).
+
+---
+
+## Screenshots
+
+Add screenshots here after running the app locally:
+
+1. Home — video hero  
+2. Collection — filters + grid  
+3. Product detail  
+4. Cart + checkout  
+
+---
 
 ## Known Limitations
 
-- No backend, authentication, or real payments
-- Product images depend on Unsplash availability (fallback SVG provided)
-- Shipping / returns copy is demonstrative only
-- Lens descriptions are product attributes, not medical claims
-- Frame Finder is a style preference filter, not face-shape analysis
+- No backend, authentication, or real payment gateway
+- Product images load from Unsplash (offline image hosting is optional future work)
+- Shipping and payment options on checkout are simulated
+- Frame Finder filters by style preference only — it is not a face-shape or prescription tool
 
-## Future Improvements
+---
 
-- Local product image assets for fully offline demos
-- Color / size variants when true SKUs exist
-- Unit tests for cart reducer and filter helpers
-- Lightweight recently-viewed history
+## Troubleshooting
+
+| Issue | What to try |
+| --- | --- |
+| `npm` / `node` not found | Install Node.js LTS and reopen the terminal |
+| Port already in use | Vite will offer another port, or stop the other process using `5173` |
+| Blank page / install errors | Delete `node_modules` and run `npm install` again |
+| Hero video not moving | Confirm `public/videos/vyra-hero.mp4` exists; hard-refresh the browser |
+
+---
 
 ## License
 
-Assessment / educational use. Third-party media remains under its original license (Mixkit / Unsplash).
+Built for assessment / educational use.  
+Third-party media remains under its original license (Mixkit / Unsplash).
